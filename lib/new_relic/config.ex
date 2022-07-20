@@ -97,6 +97,24 @@ defmodule NewRelic.Config do
     do: get(:labels)
 
   @doc """
+  Configure the CA Certificates used to connect to New Relic. Defaults to the certificates
+  bundled with elixir_agent
+
+  An optional string indicating the location of the .pem file to be used.
+
+  This feature is only configurable with `Application` config.
+
+  Example:
+
+  ```
+  config :new_relic_agent,
+    ca_bundle_path: "path/to/certificate/bundle.pem"
+  ```
+  """
+  def ca_bundle_path,
+    do: get(:ca_bundle_path)
+
+  @doc """
   Some Agent features can be toggled via configuration.
 
   ### Security

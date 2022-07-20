@@ -1,6 +1,30 @@
 defmodule UtilTest do
   use ExUnit.Case
 
+  test "ca_bundle_path correctly configured from nr_config" do
+    ca_store_file_path = CAStore.file_path()
+    custom_file_path = "path/to/ca/bundle.pem"
+
+    Application.put_env(:new_relic_agent, :ca_bundle_path, custom_file_path)
+    NewRelic.Init.init_config()
+
+    assert NewRelic.Util.HTTP.http_options()
+        |> Enum.into(%{})
+        |> Map.get(:ssl)
+        |> Enum.into(%{})
+        |> Map.get(:cacertfile) == custom_file_path
+
+    Application.put_env(:new_relic_agent, :ca_bundle_path, nil)
+    NewRelic.Init.init_config()
+
+    assert NewRelic.Util.HTTP.http_options()
+        |> Enum.into(%{})
+        |> Map.get(:ssl)
+        |> Enum.into(%{})
+        |> Map.get(:cacertfile) == ca_store_file_path
+
+  end
+
   test "respects max attr size" do
     events = [%{giant: String.duplicate("A", 5_000), gianter: String.duplicate("A", 10_000)}]
     [%{giant: giant, gianter: gianter}] = NewRelic.Util.Event.process(events)

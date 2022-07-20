@@ -40,7 +40,8 @@ defmodule NewRelic.Init do
       automatic_attributes: determine_automatic_attributes(),
       labels: determine_config(:labels) |> parse_labels(),
       telemetry_hosts: telemetry_hosts,
-      trace_mode: determine_trace_mode()
+      trace_mode: determine_trace_mode(),
+      ca_bundle_path: determine_config(:ca_bundle_path)
     })
   end
 

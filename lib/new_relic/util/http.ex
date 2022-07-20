@@ -46,7 +46,7 @@ defmodule NewRelic.Util.HTTP do
       connect_timeout: 1000,
       ssl: [
         verify: :verify_peer,
-        cacertfile: CAStore.file_path(),
+        cacertfile: NewRelic.Config.ca_bundle_path() || CAStore.file_path(),
         customize_hostname_check: [
           match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
         ]
