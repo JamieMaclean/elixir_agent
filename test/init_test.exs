@@ -20,9 +20,9 @@ defmodule InitTest do
     NewRelic.Init.init_config()
     refute NewRelic.Config.get(:harvest_enabled)
 
-    Application.put_env(:new_relic_agent, :ca_bundle_path, "path/to/bundle/.pem")
+    Application.put_env(:new_relic_agent, :ca_bundle_path, "path/to/bundle.pem")
     NewRelic.Init.init_config()
-    assert NewRelic.Config.get(:ca_bundle_path) == "path/to/bundle/.pem"
+    assert NewRelic.Config.get(:ca_bundle_path) == "path/to/bundle.pem"
     Application.put_env(:new_relic_agent, :ca_bundle_path, nil)
     NewRelic.Init.init_config()
 
